@@ -84,10 +84,10 @@ ingester:
   resources:
     requests:
       cpu: 4
-      memory: 25Gi
+      memory: 15Gi
     limits:
       cpu: 4
-      memory: 25Gi
+      memory: 15Gi
 
 memcached:
   enabled: true
@@ -107,11 +107,11 @@ querier:
   replicas: 2
   resources:
     requests:
-      cpu: 2
-      memory: 24Gi
+      cpu: 1
+      memory: 12Gi
     limits:
-      cpu: 2
-      memory: 24Gi
+      cpu: 1
+      memory: 12Gi
 
 query_frontend:
   replicas: 1
@@ -127,11 +127,11 @@ ruler:
   replicas: 2
   resources:
     requests:
-      cpu: 4
-      memory: 16Gi
+      cpu: 1
+      memory: 6Gi
     limits:
-      cpu: 4
-      memory: 16Gi
+      cpu: 1
+      memory: 6Gi
 
 store_gateway:
   persistentVolume:
@@ -139,8 +139,8 @@ store_gateway:
   replicas: 1
   resources:
     requests:
-      cpu: 2
+      cpu: 1
       memory: 6Gi
     limits:
-      cpu: 2
+      cpu: 1
       memory: 6Gi
