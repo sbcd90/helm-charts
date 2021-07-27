@@ -89,11 +89,11 @@ ingester:
 
 memcached:
   enabled: true
-  replicaCount: 2
+  replicaCount: 32
 
 memcached-queries:
   enabled: true
-  replicaCount: 3
+  replicaCount: 10
 
 memcached-metadata:
   enabled: true
