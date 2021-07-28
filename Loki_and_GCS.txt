@@ -1,0 +1,58 @@
+Loki with GCS
+
+I was able to grant Loki access to the GCP bucket with the following configuration (the current version of the chart doesn't make it too hard):
+
+Create GCS bucket
+Create GCP service account with the role 'Storage Object Admin'.
+Use the json secret file to create a k8s secret: kubectl create secret generic -n monitoring loki-access-gcs --from-file=key.json=key.json
+Create a file with the following Loki config and deploy it with helm (the env, extraVolumes and extraVolumeMounts make the difference):
+loki:
+  env:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /etc/secrets/key.json
+
+  extraVolumes:
+    - name: loki-access-gcs
+      secret:
+        secretName: loki-access-gcs
+
+  extraVolumeMounts:
+    - name: loki-access-gcs
+      mountPath: /etc/secrets
+
+  config:
+    auth_enabled: false
+
+    server:
+      http_listen_port: 3100
+
+    schema_config:
+      configs:
+        - object_store: gcs
+          store: boltdb-shipper
+          schema: v11
+          index:
+            prefix: index_loki_
+            period: 24h
+          chunks:
+            prefix: chunk_loki_
+            period: 24h
+
+    storage_config:
+      boltdb_shipper:
+        active_index_directory: /data/loki/index
+        shared_store: gcs
+        cache_location: /data/loki/index_cache
+        resync_interval: 5s
+      gcs:
+        bucket_name: grafana_loki_data
+
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 720h
+
+    limits_config:
+      enforce_metric_name: false
+      reject_old_samples: true
+      reject_old_samples_max_age: 24h
+Enjoy.
