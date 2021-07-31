@@ -1,0 +1,12 @@
+Prometheus sample exporter setup
+================================
+
+- Get prometheus helm chart
+https://github.com/prometheus-community/helm-charts
+
+- install crds
+kubectl apply -f .
+https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack/crds
+
+- install exporter helm chart
+see directory kafka-exporter/
