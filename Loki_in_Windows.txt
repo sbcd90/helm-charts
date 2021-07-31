@@ -1,0 +1,9 @@
+git clone https://github.com/grafana/helm-charts.git
+
+copy loki dir to loki-stack/charts/ dir.
+
+helm.exe  dependency update
+
+helm.exe upgrade --install loki --namespace=loki . --set prometheus.alertmanager.persistentVolume.enabled=false,prometheus.server.persistentVolume.enabled=false
+
+kubectl port-forward --namespace loki service/loki-grafana 3000:80
