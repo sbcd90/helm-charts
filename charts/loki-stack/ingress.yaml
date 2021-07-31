@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: loki
+  namespace: loki
+spec:
+  rules:
+  - host: aaaa
+    http:
+      paths:
+      - backend:
+          serviceName: loki-grafana
+          servicePort: 80
+        path: /
